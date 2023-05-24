@@ -9,7 +9,9 @@ const AboutPage = () => {
 		<Fragment>
 			<BackButton />
 			<div className="gridCenterItems">
-				<Typography variant="h6">HSL Biker App</Typography>
+				<Typography variant="h5" className="pageTitle">
+					HSL Biker App
+				</Typography>
 				<Typography paragraph>
 					React App to search for Bike journeys
 				</Typography>

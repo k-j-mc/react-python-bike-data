@@ -30,7 +30,7 @@ const DataState = (props) => {
 
 		const response = await axios.get(`${API_URL}/fetch-journeys`);
 
-		if (response.data.items.length > 0) {
+		if (response.data) {
 			loading = false;
 		} else {
 			loading = false;
@@ -50,7 +50,7 @@ const DataState = (props) => {
 
 		const response = await axios.get(`${API_URL}/fetch-stations`);
 
-		if (response.data.length > 0) {
+		if (response.data) {
 			loading = false;
 		} else {
 			loading = false;
@@ -110,6 +110,8 @@ const DataState = (props) => {
 	return (
 		<DataContext.Provider
 			value={{
+				journeyData: state.journeyData,
+				stationData: state.stationData,
 				journeys: state.journeys,
 				stations: state.stations,
 				loading: state.loading,

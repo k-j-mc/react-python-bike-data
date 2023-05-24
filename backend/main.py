@@ -13,6 +13,9 @@ journey_collection = journeys.journey
 stations = mongo_client.stations
 station_collection = stations.station
 
+journey_amount = journey_collection.count_documents({})
+station_amount = station_collection.count_documents({})
+
 load_dotenv(dotenv_path="./.env.local")
 
 FIRST_JOURNEY_URL = "https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv"
@@ -51,37 +54,33 @@ def station_process(URL):
 @app.route("/fetch-journeys", methods=["GET", "POST"])
 def journey_data():
     if request.method == "GET":
-        if journey_collection.count_documents({}) == 0:
+        if journey_amount == 0:
             journey_process(FIRST_JOURNEY_URL)
             journey_process(SECOND_JOURNEY_URL)
             journey_process(THIRD_JOURNEY_URL)
 
-            return {
-                "total_journeys": journey_collection.count_documents({}),
-            }
+            return {"total_journeys": journey_amount}
 
         else:
-            return {"total_journeys": journey_collection.count_documents({})}
+            return {"total_journeys": journey_amount}
 
 
 @app.route("/fetch-stations", methods=["GET", "POST"])
 def station_data():
     if request.method == "GET":
-        if station_collection.count_documents({}) == 0:
+        if station_amount == 0:
             station_process(STATION_URL)
 
-            return {
-                "total_stations": station_collection.count_documents({}),
-            }
+            return {"total_stations": station_amount}
 
         else:
-            return {"total_stations": station_collection.count_documents({})}
+            return {"total_stations": station_amount}
 
 
 @app.route("/journeys", methods=["GET"])
 def get_journeys():
     if request.method == "GET":
-        journey = journey_collection.find({}).limit(5)
+        journey = journey_collection.find({}).limit(25)
 
         return json.loads(json_util.dumps(journey))
 
@@ -89,7 +88,7 @@ def get_journeys():
 @app.route("/stations", methods=["GET"])
 def get_stations():
     if request.method == "GET":
-        station = station_collection.find({}).limit(5)
+        station = station_collection.find({}).limit(25)
 
         return json.loads(json_util.dumps(station))
 

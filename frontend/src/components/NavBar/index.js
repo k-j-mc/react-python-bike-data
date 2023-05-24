@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import PropTypes from "prop-types";
 
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material/";
+
+import DataContext from "../../context/data/dataContext";
 
 import NavMenu from "./NavMenu";
 
 import Icons from "../Icons";
 
 const NavBar = ({ title, title2 }) => {
+	const dataContext = useContext(DataContext);
+
 	const [anchorEl, setAnchorEl] = useState(null);
 
 	const openMenu = Boolean(anchorEl);
@@ -25,21 +29,25 @@ const NavBar = ({ title, title2 }) => {
 						<strong className="mainTitle">{title}</strong>
 						{title2}
 					</Typography>
-					<IconButton
-						onClick={handleOpenMenu}
-						style={{ marginLeft: "auto" }}
-					>
-						{openMenu === false ? (
-							<Icons.Menu className="menuIcon" />
-						) : (
-							<Icons.Close className="menuIcon" />
-						)}
-					</IconButton>
-					<NavMenu
-						openMenu={openMenu}
-						anchorEl={anchorEl}
-						setAnchorEl={setAnchorEl}
-					/>
+					{!dataContext.loading && (
+						<Fragment>
+							<IconButton
+								onClick={handleOpenMenu}
+								style={{ marginLeft: "auto" }}
+							>
+								{openMenu === false ? (
+									<Icons.Menu className="menuIcon" />
+								) : (
+									<Icons.Close className="menuIcon" />
+								)}
+							</IconButton>
+							<NavMenu
+								openMenu={openMenu}
+								anchorEl={anchorEl}
+								setAnchorEl={setAnchorEl}
+							/>
+						</Fragment>
+					)}
 				</Toolbar>
 			</AppBar>
 			<div className="appBarShadow" />

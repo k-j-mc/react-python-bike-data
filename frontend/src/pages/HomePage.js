@@ -2,10 +2,15 @@ import React from "react";
 
 import { Typography } from "@mui/material";
 
+import ListComp from "../components/ListComp";
+
 const HomePage = () => {
 	return (
 		<div className="gridCenterItems">
-			<Typography variant="h6">HSL Biker Home Page</Typography>
+			<Typography variant="h5" className="pageTitle">
+				HSL Biker Home Page
+			</Typography>
+			<ListComp />
 		</div>
 	);
 };

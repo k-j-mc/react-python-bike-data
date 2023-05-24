@@ -11,7 +11,7 @@ const githubReducer = (state, action) => {
 		case GET_DEFAULT_JOURNEY_DATA:
 			return {
 				...state,
-				data: action.payload,
+				journeyData: action.payload,
 				loading: action.loading,
 				error: action.error,
 			};
@@ -19,7 +19,7 @@ const githubReducer = (state, action) => {
 		case GET_DEFAULT_STATION_DATA:
 			return {
 				...state,
-				data: action.payload,
+				stationData: action.payload,
 				loading: action.loading,
 				error: action.error,
 			};

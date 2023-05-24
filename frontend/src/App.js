@@ -16,6 +16,7 @@ import ErrorPage from "./pages/ErrorPage";
 
 import Notifications from "./components/Notifications";
 import NavBar from "./components/NavBar";
+import Loader from "./components/Loader";
 
 import Icons from "./components/Icons";
 
@@ -23,16 +24,17 @@ const App = () => {
 	const dataContext = useContext(DataContext);
 	const themeContext = useContext(ThemeContext);
 
+	const { loading } = dataContext;
 	const { theme } = themeContext;
 
 	const themeData = createTheme(theme);
 
 	useEffect(() => {
+		dataContext.getDefaultJourneyData();
+		dataContext.getDefaultStationData();
 		dataContext.getJourneys();
 		dataContext.getStations();
 	}, []);
-
-	console.log(dataContext);
 
 	return (
 		<BrowserRouter>
@@ -51,26 +53,34 @@ const App = () => {
 					<NavBar />
 					<Grid container spacing={2} className="mainGrid">
 						<Grid item xs={12}>
-							<Routes>
-								<Route exact path="/" element={<HomePage />} />
-								<Route
-									exact
-									path="/about"
-									element={<AboutPage />}
-								/>
+							{loading ? (
+								<Loader message="Loading..." />
+							) : (
+								<Routes>
+									<Route
+										exact
+										path="/"
+										element={<HomePage />}
+									/>
+									<Route
+										exact
+										path="/about"
+										element={<AboutPage />}
+									/>
 
-								<Route
-									path="*"
-									element={
-										<ErrorPage
-											message="Page not found"
-											icon={
-												<Icons.WrongLocation className="noResultIcon" />
-											}
-										/>
-									}
-								/>
-							</Routes>
+									<Route
+										path="*"
+										element={
+											<ErrorPage
+												message="Page not found"
+												icon={
+													<Icons.WrongLocation className="noResultIcon" />
+												}
+											/>
+										}
+									/>
+								</Routes>
+							)}
 						</Grid>
 					</Grid>
 				</ThemeProvider>
