@@ -1,6 +1,6 @@
 const ThemeStyling = {
 	palette: {
-		mode: "dark",
+		mode: "light",
 		primary: {
 			main: "#42a5f5",
 		},
@@ -24,7 +24,7 @@ const ThemeStyling = {
 		allVariants: {
 			fontFamily: "montserrat",
 			textTransform: "none",
-			color: "#FFFFFF",
+			color: "#000000",
 		},
 	},
 	components: {

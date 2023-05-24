@@ -3,11 +3,21 @@ import { Route, BrowserRouter, Routes } from "react-router-dom";
 
 import { SnackbarProvider } from "notistack";
 
+import { Grid } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import ThemeContext from "./context/theme/themeContext";
 
 import DataContext from "./context/data/dataContext";
+
+import HomePage from "./pages/HomePage";
+import AboutPage from "./pages/AboutPage";
+import ErrorPage from "./pages/ErrorPage";
+
+import Notifications from "./components/Notifications";
+import NavBar from "./components/NavBar";
+
+import Icons from "./components/Icons";
 
 const App = () => {
 	const dataContext = useContext(DataContext);
@@ -36,7 +46,33 @@ const App = () => {
 			>
 				<ThemeProvider theme={themeData}>
 					<CssBaseline />
-					<div>asfa</div>
+
+					<Notifications />
+					<NavBar />
+					<Grid container spacing={2} className="mainGrid">
+						<Grid item xs={12}>
+							<Routes>
+								<Route exact path="/" element={<HomePage />} />
+								<Route
+									exact
+									path="/about"
+									element={<AboutPage />}
+								/>
+
+								<Route
+									path="*"
+									element={
+										<ErrorPage
+											message="Page not found"
+											icon={
+												<Icons.WrongLocation className="noResultIcon" />
+											}
+										/>
+									}
+								/>
+							</Routes>
+						</Grid>
+					</Grid>
 				</ThemeProvider>
 			</SnackbarProvider>
 		</BrowserRouter>
