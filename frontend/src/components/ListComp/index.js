@@ -11,20 +11,28 @@ const ListComp = (props) => {
 
 	const { journeys, journeyData, stations, stationData } = dataContext;
 
+	const [limit, setLimit] = useState(5);
+	const [skip, setSkip] = useState(0);
+
 	const pages = Math.ceil(journeyData.total_journeys / 5);
 
 	const [page, setPage] = useState(1);
 
-	const [dataItems, setDataItems] = useState(journeys.slice(0, 5));
+	const [dataItems, setDataItems] = useState(journeys);
 
 	useEffect(() => {
-		setDataItems(journeys.slice((page - 1) * 5, page * 5));
+		setDataItems(journeys);
+	}, [journeys]);
+
+	useEffect(() => {
+		dataContext.getJourneys({ limit: limit, skip: skip });
 
 		// eslint-disable-next-line
 	}, [page]);
 
 	const handleChange = (e, val) => {
 		setPage(val);
+		setSkip(val * limit);
 	};
 
 	return (

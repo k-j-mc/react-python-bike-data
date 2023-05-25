@@ -29,7 +29,7 @@ const NavBar = ({ title, title2 }) => {
 						<strong className="mainTitle">{title}</strong>
 						{title2}
 					</Typography>
-					{!dataContext.loading && (
+					{!dataContext.initialLoading && (
 						<Fragment>
 							<IconButton
 								onClick={handleOpenMenu}

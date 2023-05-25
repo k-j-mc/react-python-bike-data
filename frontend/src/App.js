@@ -24,7 +24,7 @@ const App = () => {
 	const dataContext = useContext(DataContext);
 	const themeContext = useContext(ThemeContext);
 
-	const { loading } = dataContext;
+	const { initialLoading } = dataContext;
 	const { theme } = themeContext;
 
 	const themeData = createTheme(theme);
@@ -32,7 +32,7 @@ const App = () => {
 	useEffect(() => {
 		dataContext.getDefaultJourneyData();
 		dataContext.getDefaultStationData();
-		dataContext.getJourneys();
+		dataContext.getJourneys({ limit: 5, skip: 0 });
 		dataContext.getStations();
 	}, []);
 
@@ -53,7 +53,7 @@ const App = () => {
 					<NavBar />
 					<Grid container spacing={2} className="mainGrid">
 						<Grid item xs={12}>
-							{loading ? (
+							{initialLoading ? (
 								<Loader message="Loading..." />
 							) : (
 								<Routes>

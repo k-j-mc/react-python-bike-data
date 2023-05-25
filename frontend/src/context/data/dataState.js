@@ -7,6 +7,7 @@ import {
 	GET_DEFAULT_STATION_DATA,
 	GET_JOURNEYS,
 	GET_STATIONS,
+	SET_INITIAL_LOADING,
 	SET_LOADING,
 } from "../types";
 
@@ -14,6 +15,7 @@ const DataState = (props) => {
 	const initialState = {
 		journeys: [],
 		stations: [],
+		initialLoading: true,
 		loading: true,
 		error: null,
 	};
@@ -22,18 +24,19 @@ const DataState = (props) => {
 
 	const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5050";
 
+	let initialLoading = true;
 	let loading = true;
 	let error = null;
 
 	const getDefaultJourneyData = async () => {
-		setLoading();
+		setInitialLoading();
 
 		const response = await axios.get(`${API_URL}/fetch-journeys`);
 
 		if (response.data) {
-			loading = false;
+			initialLoading = false;
 		} else {
-			loading = false;
+			initialLoading = false;
 			error = "Journey data failed to load...";
 		}
 
@@ -41,19 +44,19 @@ const DataState = (props) => {
 			type: GET_DEFAULT_JOURNEY_DATA,
 			payload: response.data,
 			error: error,
-			loading: loading,
+			initialLoading: initialLoading,
 		});
 	};
 
 	const getDefaultStationData = async () => {
-		setLoading();
+		setInitialLoading();
 
 		const response = await axios.get(`${API_URL}/fetch-stations`);
 
 		if (response.data) {
-			loading = false;
+			initialLoading = false;
 		} else {
-			loading = false;
+			initialLoading = false;
 			error = "Station data failed to load...";
 		}
 
@@ -61,14 +64,19 @@ const DataState = (props) => {
 			type: GET_DEFAULT_STATION_DATA,
 			payload: response.data,
 			error: error,
-			loading: loading,
+			initialLoading: initialLoading,
 		});
 	};
 
-	const getJourneys = async () => {
+	const getJourneys = async (e) => {
 		setLoading();
 
-		const response = await axios.get(`${API_URL}/journeys`);
+		const limit = e.limit;
+		const skip = e.skip;
+
+		const response = await axios.get(
+			`${API_URL}/journeys?limit=${limit}&skip=${skip}`
+		);
 
 		if (response.data.length > 0) {
 			loading = false;
@@ -105,6 +113,8 @@ const DataState = (props) => {
 		});
 	};
 
+	const setInitialLoading = () => dispatch({ type: SET_INITIAL_LOADING });
+
 	const setLoading = () => dispatch({ type: SET_LOADING });
 
 	return (
@@ -114,6 +124,7 @@ const DataState = (props) => {
 				stationData: state.stationData,
 				journeys: state.journeys,
 				stations: state.stations,
+				initialLoading: state.initialLoading,
 				loading: state.loading,
 				error: state.error,
 				getDefaultJourneyData,

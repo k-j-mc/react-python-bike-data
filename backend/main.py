@@ -79,8 +79,11 @@ def station_data():
 
 @app.route("/journeys", methods=["GET"])
 def get_journeys():
+    limit = request.args.get("limit", default=5, type=int)
+    skip = request.args.get("skip", default=0, type=int)
+
     if request.method == "GET":
-        journey = journey_collection.find({}).limit(25)
+        journey = journey_collection.find({}).skip(skip).limit(limit)
 
         return json.loads(json_util.dumps(journey))
 
