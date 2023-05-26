@@ -14,6 +14,7 @@ import {
 
 import DataContext from "../../context/data/dataContext";
 
+import JourneyGraph from "./JourneyGraph";
 import ListItemComp from "./ListItemComp";
 
 const ListComp = () => {
@@ -60,6 +61,7 @@ const ListComp = () => {
 			<Typography paragraph>
 				<strong>Journey initial list</strong>
 			</Typography>
+			<JourneyGraph journeys={journeys} />
 			<List>
 				<TransitionGroup>
 					{dataItems.map((journey) => (

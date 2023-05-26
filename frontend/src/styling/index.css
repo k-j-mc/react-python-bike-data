@@ -69,6 +69,17 @@ body {
     padding-bottom: 40px;
 }
 
+.progressContainer {
+    padding: 0 25% 0 25%;
+    display: flex;
+    align-items: center;
+}
+
+.progressVis {
+    padding: 10px 0 10px 0;
+    margin: 10px 0 10px 0;
+}
+
 .listAccordion {
     width: 100%;
 }
