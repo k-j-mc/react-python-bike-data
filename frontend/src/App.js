@@ -32,7 +32,7 @@ const App = () => {
 	useEffect(() => {
 		dataContext.getDefaultJourneyData();
 		dataContext.getDefaultStationData();
-		dataContext.getJourneys({ limit: 5, skip: 0 });
+		dataContext.getJourneys({ limit: 10, skip: 0 });
 		dataContext.getStations();
 	}, []);
 

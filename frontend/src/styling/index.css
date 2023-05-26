@@ -69,10 +69,24 @@ body {
     padding-bottom: 40px;
 }
 
+.listAccordion {
+    width: 100%;
+}
 
+.avatarComp {
+    padding-right: 30px;
+}
 
+.loadingSkeleton {
+    width: 100%;
+}
 
 .pagination {
     justify-content: center;
     display: flex;
+    padding: 10px 0 10px 0;
+}
+
+.paginationSelect {
+    margin-bottom: 10px;
 }

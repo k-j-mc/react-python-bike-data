@@ -1,6 +1,7 @@
 import React, { forwardRef } from "react";
 
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import CloseIcon from "@mui/icons-material/Close";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import DirectionsBikeIcon from "@mui/icons-material/DirectionsBike";
@@ -16,6 +17,9 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import WrongLocationIcon from "@mui/icons-material/WrongLocation";
 
 const Icons = {
+	DropDown: forwardRef((props, ref) => (
+		<ArrowDropDownIcon {...props} ref={ref} />
+	)),
 	Back: forwardRef((props, ref) => (
 		<ArrowBackIosNewIcon {...props} ref={ref} />
 	)),

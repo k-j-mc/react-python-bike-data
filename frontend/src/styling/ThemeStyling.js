@@ -45,8 +45,15 @@ const ThemeStyling = {
 		MuiAvatar: {
 			styleOverrides: {
 				root: {
-					width: "150px",
-					height: "150px",
+					width: "60px",
+					height: "60px",
+				},
+			},
+		},
+		MuiAccordion: {
+			styleOverrides: {
+				root: {
+					boxShadow: "none",
 				},
 			},
 		},
