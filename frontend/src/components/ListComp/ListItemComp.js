@@ -13,6 +13,8 @@ import {
 
 import LoaderSkeleton from "../Loader/LoaderSkeleton";
 import AvatarComp from "./AvatarComp";
+import Maps from "../Maps";
+
 import Icons from "../Icons";
 
 const ListItemComp = ({ journey, loading }) => {
@@ -85,6 +87,7 @@ const ListItemComp = ({ journey, loading }) => {
 							/>
 						</AccordionSummary>
 						<AccordionDetails>
+							<Maps />
 							<Typography>
 								<strong>Covered distance: </strong>
 								{journey["Covered distance (m)"] / 1000} km

@@ -10,6 +10,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import LinkIcon from "@mui/icons-material/Link";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MenuIcon from "@mui/icons-material/Menu";
 import Search from "@mui/icons-material/Search";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
@@ -35,6 +36,7 @@ const Icons = {
 	About: forwardRef((props, ref) => <InfoIcon {...props} ref={ref} />),
 	LightMode: forwardRef((props, ref) => <LightModeIcon {...props} />),
 	Link: forwardRef((props, ref) => <LinkIcon {...props} />),
+	Location: forwardRef((props, ref) => <LocationOnIcon {...props} />),
 	Menu: forwardRef((props, ref) => <MenuIcon {...props} ref={ref} />),
 	Search: forwardRef((props, ref) => (
 		<Search {...props} ref={ref} style={{ color: "#FFFFFF" }} />

@@ -58,9 +58,6 @@ const ListComp = () => {
 
 	return (
 		<div className="gridCenterItems">
-			<Typography paragraph>
-				<strong>Journey initial list</strong>
-			</Typography>
 			<JourneyGraph journeys={journeys} />
 			<List>
 				<TransitionGroup>
