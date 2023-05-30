@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext } from "react";
 
 import {
 	Accordion,
@@ -14,12 +14,12 @@ import {
 import DataContext from "../../context/data/dataContext";
 
 import LoaderSkeleton from "../Loader/LoaderSkeleton";
-import AvatarComp from "./AvatarComp";
+import AvatarComp from "../AvatarComp";
 import Maps from "../Maps";
 
 import Icons from "../Icons";
 
-const ListItemComp = ({ expanded, onExpand, journey, loading }) => {
+const JourneyItem = ({ expanded, onExpand, journey, loading }) => {
 	const dataContext = useContext(DataContext);
 
 	const journeyToFrom = `${journey["Departure station name"]} - ${journey["Return station name"]}`;
@@ -125,4 +125,4 @@ const ListItemComp = ({ expanded, onExpand, journey, loading }) => {
 	);
 };
 
-export default ListItemComp;
+export default JourneyItem;

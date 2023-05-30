@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { GeoJsonLoader, Map, Marker } from "pigeon-maps";
 
+import DataContext from "../../context/data/dataContext";
+
 import Loader from "../Loader";
 
-const Maps = ({
-	stationData: { station_depart, station_return },
-	loadingCoords,
-}) => {
+const Maps = () => {
+	const dataContext = useContext(DataContext);
+
+	const { coords, loadingCoords } = dataContext;
+
 	const getMiddle = (prop, markers) => {
 		let values = markers.map((m) => m[prop]);
 
@@ -35,12 +38,18 @@ const Maps = ({
 
 	return (
 		<div className="mapContainer">
-			{!loadingCoords ? (
+			{!loadingCoords && coords.station_return ? (
 				<Map
 					height={300}
 					defaultCenter={findCenter([
-						{ lat: station_depart[0].y, lng: station_depart[0].x },
-						{ lat: station_return[0].y, lng: station_return[0].x },
+						{
+							lat: coords.station_depart[0].y,
+							lng: coords.station_depart[0].x,
+						},
+						{
+							lat: coords.station_return[0].y,
+							lng: coords.station_return[0].x,
+						},
 					])}
 					defaultZoom={12}
 				>
@@ -62,11 +71,17 @@ const Maps = ({
 					/>
 					<Marker
 						width={50}
-						anchor={[station_depart[0].y, station_depart[[0]].x]}
+						anchor={[
+							coords.station_depart[0].y,
+							coords.station_depart[[0]].x,
+						]}
 					/>
 					<Marker
 						width={50}
-						anchor={[station_return[0].y, station_return[0].x]}
+						anchor={[
+							coords.station_return[0].y,
+							coords.station_return[0].x,
+						]}
 					/>
 				</Map>
 			) : (

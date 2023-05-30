@@ -2,20 +2,28 @@ import React, { Fragment, useContext, useEffect, useState } from "react";
 
 import { TransitionGroup } from "react-transition-group";
 
-import { Collapse, Divider, List, Typography } from "@mui/material";
+import {
+	Collapse,
+	Divider,
+	List,
+	MenuItem,
+	Pagination,
+	Select,
+	Typography,
+} from "@mui/material";
 
 import DataContext from "../../context/data/dataContext";
 
 import PaginationComp from "../PaginationComp";
-import JourneyItem from "./JourneyItem";
+import StationItem from "./StationItem";
 import Loader from "../Loader";
 
 import Icons from "../Icons";
 
-const JourneyList = ({ activeData }) => {
+const StationList = ({ activeData }) => {
 	const dataContext = useContext(DataContext);
 
-	const { journeys, limit, loading, page, searchQuery, skip } = dataContext;
+	const { stations, limit, loading, page, searchQuery, skip } = dataContext;
 
 	const menuValues = [10, 20, 30, 40, 50];
 
@@ -23,30 +31,30 @@ const JourneyList = ({ activeData }) => {
 
 	const [expanded, setExpanded] = useState(null);
 
-	const onExpand = (journey) => (_, isExpanded) => {
+	const onExpand = (station) => (_, isExpanded) => {
 		dataContext.getCoords({
-			station_depart: journey["Departure station id"],
-			station_return: journey["Return station id"],
+			station_depart: station["ID"],
+			// 	station_return: station["Return station id"],
 		});
 
-		setExpanded(isExpanded ? journey._id.$oid : null);
+		setExpanded(isExpanded ? station._id.$oid : null);
 	};
 
 	useEffect(() => {
-		if (journeys.total) {
-			setPages(Math.floor(journeys.total / limit));
-		}
-	}, [journeys]);
-
-	useEffect(() => {
-		if (activeData === 0) {
-			dataContext.getJourneys({
+		if (activeData === 1) {
+			dataContext.getStations({
 				limit: limit,
 				skip: skip,
 				station_name: searchQuery,
 			});
 		}
 	}, [page, limit, searchQuery, activeData]);
+
+	useEffect(() => {
+		if (stations.total) {
+			setPages(Math.floor(stations.total / limit));
+		}
+	}, [stations]);
 
 	const handleChangePage = (e, val) => {
 		dataContext.setPage(val);
@@ -60,11 +68,11 @@ const JourneyList = ({ activeData }) => {
 	const handleChangeLimit = (e) => {
 		dataContext.setLimit(e.target.value);
 
-		if (dataContext.page > journeys.total / e.target.value) {
-			dataContext.setPage(Math.floor(journeys.total / e.target.value));
+		if (dataContext.page > stations.total / e.target.value) {
+			dataContext.setPage(Math.floor(stations.total / e.target.value));
 		}
 
-		setPages(Math.floor(journeys.total / e.target.value));
+		setPages(Math.floor(stations.total / e.target.value));
 	};
 
 	return (
@@ -73,12 +81,12 @@ const JourneyList = ({ activeData }) => {
 				<div className="gridCenterItems">
 					<List>
 						<TransitionGroup>
-							{journeys.data.map((journey) => (
-								<Collapse in={true} key={journey._id.$oid}>
-									<JourneyItem
-										expanded={expanded === journey._id.$oid}
-										onExpand={onExpand(journey)}
-										journey={journey}
+							{stations.data.map((station) => (
+								<Collapse in={true} key={station._id.$oid}>
+									<StationItem
+										expanded={expanded === station._id.$oid}
+										onExpand={onExpand(station)}
+										station={station}
 										loading={loading}
 									/>
 								</Collapse>
@@ -86,7 +94,7 @@ const JourneyList = ({ activeData }) => {
 						</TransitionGroup>
 					</List>
 
-					{pages && journeys.total > 5 ? (
+					{pages && stations.total > 5 ? (
 						<PaginationComp
 							handleChangeLimit={handleChangeLimit}
 							handleChangePage={handleChangePage}
@@ -106,10 +114,10 @@ const JourneyList = ({ activeData }) => {
 					<Divider />
 				</div>
 			) : (
-				<Loader message="Loading journeys..." />
+				<Loader message="Loading stations..." />
 			)}
 		</Fragment>
 	);
 };
 
-export default JourneyList;
+export default StationList;

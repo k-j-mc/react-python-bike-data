@@ -32,6 +32,16 @@ const App = () => {
 	useEffect(() => {
 		dataContext.getDefaultJourneyData();
 		dataContext.getDefaultStationData();
+		dataContext.getJourneys({
+			limit: 10,
+			skip: 0,
+			station_name: "",
+		});
+		dataContext.getStations({
+			limit: 10,
+			skip: 0,
+			station_name: "",
+		});
 	}, []);
 
 	return (

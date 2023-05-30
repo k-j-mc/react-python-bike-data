@@ -5,6 +5,7 @@ import { Typography } from "@mui/material";
 import ButtonSwitch from "../components/ButtonSwitch";
 import SearchBar from "../components/SearchBar";
 import JourneyList from "../components/JourneyList";
+import StationList from "../components/StationList";
 
 const HomePage = () => {
 	const [activeData, setActiveData] = useState(0);
@@ -26,7 +27,7 @@ const HomePage = () => {
 			{activeData === 0 ? (
 				<JourneyList activeData={activeData} />
 			) : (
-				<p>station data...</p>
+				<StationList activeData={activeData} />
 			)}
 		</div>
 	);
