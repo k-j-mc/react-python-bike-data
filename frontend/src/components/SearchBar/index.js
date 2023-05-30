@@ -3,9 +3,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, Grid, IconButton, TextField } from "@mui/material";
 
 import Icons from "../Icons";
+import DataContext from "../../context/data/dataContext";
 
 const SearchBar = () => {
-	const [searchQuery, setSearchQuery] = useState("");
+	const dataContext = useContext(DataContext);
+
+	const [searchQuery, setSearchQuery] = useState(dataContext.searchQuery);
 	const [isDisabled, setIsDisabled] = useState(true);
 
 	useEffect(() => {
@@ -16,7 +19,11 @@ const SearchBar = () => {
 		}
 	}, [searchQuery]);
 
-	const handleSearch = () => {};
+	const handleSearch = () => {
+		dataContext.setSearchQuery(searchQuery);
+		dataContext.setSkip(0);
+		dataContext.setPage(1);
+	};
 
 	const enterSearch = (e) => {
 		if (e.keyCode === 13 && searchQuery.replace(/\s/g, "").length) {
@@ -26,6 +33,9 @@ const SearchBar = () => {
 
 	const clearSearch = () => {
 		setSearchQuery("");
+		dataContext.setSearchQuery("");
+		dataContext.setSkip(0);
+		dataContext.setPage(1);
 	};
 
 	return (

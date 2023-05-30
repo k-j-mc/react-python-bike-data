@@ -2,32 +2,76 @@ import React from "react";
 
 import { GeoJsonLoader, Map, Marker } from "pigeon-maps";
 
-const Maps = () => {
+import Loader from "../Loader";
+
+const Maps = ({
+	stationData: { station_depart, station_return },
+	loadingCoords,
+}) => {
+	const getMiddle = (prop, markers) => {
+		let values = markers.map((m) => m[prop]);
+
+		let min = Math.min(...values);
+		let max = Math.max(...values);
+
+		if (prop === "lng" && max - min > 180) {
+			values = values.map((val) => (val < max - 180 ? val + 360 : val));
+			min = Math.min(...values);
+			max = Math.max(...values);
+		}
+
+		let result = (min + max) / 2;
+
+		if (prop === "lng" && result > 180) {
+			result -= 360;
+		}
+
+		return result;
+	};
+
+	const findCenter = (markers) => {
+		return [getMiddle("lat", markers), getMiddle("lng", markers)];
+	};
+
 	return (
 		<div className="mapContainer">
-			<Map
-				height={300}
-				defaultCenter={[60.171524, 24.827467]}
-				defaultZoom={11}
-			>
-				<GeoJsonLoader
-					link={
-						"https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.geojson"
-					}
-					styleCallback={(feature, hover) => {
-						if (feature.geometry.type === "LineString") {
-							return { strokeWidth: "1", stroke: "black" };
+			{!loadingCoords ? (
+				<Map
+					height={300}
+					defaultCenter={findCenter([
+						{ lat: station_depart[0].y, lng: station_depart[0].x },
+						{ lat: station_return[0].y, lng: station_return[0].x },
+					])}
+					defaultZoom={12}
+				>
+					<GeoJsonLoader
+						link={
+							"https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.geojson"
 						}
-						return {
-							fill: "#007ac9",
-							strokeWidth: "1",
-							stroke: "white",
-							r: "8",
-						};
-					}}
-				/>
-				<Marker width={50} anchor={[60.171524, 24.827467]} />
-			</Map>
+						styleCallback={(feature, hover) => {
+							if (feature.geometry.type === "LineString") {
+								return { strokeWidth: "1", stroke: "black" };
+							}
+							return {
+								fill: "rgb(0 122 201 / 0.3)",
+								strokeWidth: "1",
+								stroke: "white",
+								r: "8",
+							};
+						}}
+					/>
+					<Marker
+						width={50}
+						anchor={[station_depart[0].y, station_depart[[0]].x]}
+					/>
+					<Marker
+						width={50}
+						anchor={[station_return[0].y, station_return[0].x]}
+					/>
+				</Map>
+			) : (
+				<Loader message="Loading map..." />
+			)}
 		</div>
 	);
 };

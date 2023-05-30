@@ -32,8 +32,6 @@ const App = () => {
 	useEffect(() => {
 		dataContext.getDefaultJourneyData();
 		dataContext.getDefaultStationData();
-		dataContext.getJourneys({ limit: 10, skip: 0 });
-		dataContext.getStations();
 	}, []);
 
 	return (
@@ -54,7 +52,7 @@ const App = () => {
 					<Grid container spacing={2} className="mainGrid">
 						<Grid item xs={12}>
 							{initialLoading ? (
-								<Loader message="Loading..." />
+								<Loader message="Loading default data, please note that this might take a minute or so..." />
 							) : (
 								<Routes>
 									<Route

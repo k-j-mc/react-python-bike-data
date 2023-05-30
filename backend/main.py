@@ -1,4 +1,4 @@
-import os
+import os, re
 from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from flask_cors import CORS
@@ -79,21 +79,89 @@ def station_data():
 
 @app.route("/journeys", methods=["GET"])
 def get_journeys():
-    limit = request.args.get("limit", default=5, type=int)
+    limit = request.args.get("limit", default=10, type=int)
     skip = request.args.get("skip", default=0, type=int)
+    station_name = request.args.get("station_name", type=str)
 
     if request.method == "GET":
         journey = journey_collection.find({}).skip(skip).limit(limit)
 
-        return json.loads(json_util.dumps(journey))
+        if station_name == "":
+            journey_total = journey_collection.count_documents({})
+
+            payload = {
+                "data": journey,
+                "total": journey_total,
+            }
+
+            return json.loads(json_util.dumps(payload))
+
+        else:
+            journey = (
+                journey_collection.find(
+                    {"Return station name": re.compile(station_name, re.IGNORECASE)}
+                )
+                .skip(skip)
+                .limit(limit)
+            )
+            journey_total = journey_collection.count_documents(
+                {"Return station name": re.compile(station_name, re.IGNORECASE)}
+            )
+
+            payload = {
+                "data": journey,
+                "total": journey_total,
+            }
+            return json.loads(json_util.dumps(payload))
+        #
 
 
 @app.route("/stations", methods=["GET"])
 def get_stations():
-    if request.method == "GET":
-        station = station_collection.find({}).limit(25)
+    limit = request.args.get("limit", default=10, type=int)
+    skip = request.args.get("skip", default=0, type=int)
+    station_id = request.args.get("station_id", type=int)
+    station_name = request.args.get("station_name", type=str)
 
-        return json.loads(json_util.dumps(station))
+    if request.method == "GET":
+        if station_name == "":
+            station = station_collection.find({}).skip(skip).limit(limit)
+            station_total = station_collection.count_documents({})
+
+            payload = {"data": station, "total": station_total}
+
+            return json.loads(json_util.dumps(payload))
+
+        else:
+            station = (
+                station_collection.find(
+                    {"Nimi": re.compile(station_name, re.IGNORECASE)}
+                )
+                .skip(skip)
+                .limit(limit)
+            )
+            station_total = station_collection.count_documents(
+                {"Nimi": re.compile(station_name, re.IGNORECASE)}
+            )
+
+            payload = {"data": station, "total": station_total}
+            return json.loads(json_util.dumps(payload))
+
+
+@app.route("/coords", methods=["GET"])
+def get_coords():
+    station_depart = request.args.get("station_depart", type=int)
+    station_return = request.args.get("station_return", type=int)
+
+    station_1 = station_collection.find({"ID": station_depart})
+    station_2 = station_collection.find({"ID": station_return})
+
+    payload = {
+        "station_depart": station_1,
+        "station_return": station_2,
+    }
+
+    return json.loads(json_util.dumps(payload))
 
 
 if __name__ == "__main__":

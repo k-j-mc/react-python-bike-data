@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 
 import {
 	Accordion,
@@ -11,13 +11,17 @@ import {
 	Typography,
 } from "@mui/material";
 
+import DataContext from "../../context/data/dataContext";
+
 import LoaderSkeleton from "../Loader/LoaderSkeleton";
 import AvatarComp from "./AvatarComp";
 import Maps from "../Maps";
 
 import Icons from "../Icons";
 
-const ListItemComp = ({ journey, loading }) => {
+const ListItemComp = ({ expanded, onExpand, journey, loading }) => {
+	const dataContext = useContext(DataContext);
+
 	const journeyToFrom = `${journey["Departure station name"]} - ${journey["Return station name"]}`;
 
 	const toHoursAndMinutes = (totalSeconds) => {
@@ -41,7 +45,11 @@ const ListItemComp = ({ journey, loading }) => {
 				{loading ? (
 					<LoaderSkeleton />
 				) : (
-					<Accordion className="listAccordion">
+					<Accordion
+						className="listAccordion"
+						onChange={onExpand}
+						expanded={expanded}
+					>
 						<AccordionSummary
 							expandIcon={
 								<Tooltip title="information">
@@ -62,7 +70,6 @@ const ListItemComp = ({ journey, loading }) => {
 								stationsString={journeyToFrom}
 								className="avatarComp"
 							/>
-
 							<ListItemText
 								primary={
 									<Fragment>
@@ -87,7 +94,10 @@ const ListItemComp = ({ journey, loading }) => {
 							/>
 						</AccordionSummary>
 						<AccordionDetails>
-							<Maps />
+							<Maps
+								stationData={dataContext.coords}
+								loadingCoords={dataContext.loadingCoords}
+							/>
 							<Typography>
 								<strong>Covered distance: </strong>
 								{journey["Covered distance (m)"] / 1000} km
