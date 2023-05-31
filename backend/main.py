@@ -51,7 +51,7 @@ def station_process(URL):
     station_collection.insert_many(payload)
 
 
-@app.route("/fetch-journeys", methods=["GET", "POST"])
+@app.route("/fetch-journeys", methods=["GET"])
 def journey_data():
     if request.method == "GET":
         if journey_amount == 0:
@@ -65,7 +65,7 @@ def journey_data():
             return {"total_journeys": journey_amount}
 
 
-@app.route("/fetch-stations", methods=["GET", "POST"])
+@app.route("/fetch-stations", methods=["GET"])
 def station_data():
     if request.method == "GET":
         if station_amount == 0:
@@ -150,8 +150,8 @@ def get_stations():
 
 @app.route("/coords", methods=["GET"])
 def get_coords():
-    station_depart = request.args.get("station_depart", type=int)
-    station_return = request.args.get("station_return", type=int)
+    station_depart = request.args.get("station_depart", default=501, type=int)
+    station_return = request.args.get("station_return", default=501, type=int)
 
     station_1 = station_collection.find({"ID": station_depart})
     station_2 = station_collection.find({"ID": station_return})

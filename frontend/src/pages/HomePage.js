@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { Typography } from "@mui/material";
+
+import DataContext from "../context/data/dataContext";
 
 import ButtonSwitch from "../components/ButtonSwitch";
 import SearchBar from "../components/SearchBar";
@@ -8,10 +10,14 @@ import JourneyList from "../components/JourneyList";
 import StationList from "../components/StationList";
 
 const HomePage = () => {
+	const dataContext = useContext(DataContext);
+
 	const [activeData, setActiveData] = useState(0);
 
 	const handleActiveData = (e) => {
 		setActiveData(e);
+		dataContext.setPage(1);
+		dataContext.setSkip(0);
 	};
 
 	return (

@@ -22,6 +22,8 @@ import Icons from "../Icons";
 const JourneyItem = ({ expanded, onExpand, journey, loading }) => {
 	const dataContext = useContext(DataContext);
 
+	const { coords, loadingCoords } = dataContext;
+
 	const journeyToFrom = `${journey["Departure station name"]} - ${journey["Return station name"]}`;
 
 	const toHoursAndMinutes = (totalSeconds) => {
@@ -95,8 +97,8 @@ const JourneyItem = ({ expanded, onExpand, journey, loading }) => {
 						</AccordionSummary>
 						<AccordionDetails>
 							<Maps
-								stationData={dataContext.coords}
-								loadingCoords={dataContext.loadingCoords}
+								stationData={coords}
+								loadingCoords={loadingCoords}
 							/>
 							<Typography>
 								<strong>Covered distance: </strong>

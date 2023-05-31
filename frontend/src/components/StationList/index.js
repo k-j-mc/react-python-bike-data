@@ -77,7 +77,7 @@ const StationList = ({ activeData }) => {
 
 	return (
 		<Fragment>
-			{!loading ? (
+			{!loading && stations ? (
 				<div className="gridCenterItems">
 					<List>
 						<TransitionGroup>
@@ -94,7 +94,7 @@ const StationList = ({ activeData }) => {
 						</TransitionGroup>
 					</List>
 
-					{pages && stations.total > 5 ? (
+					{stations.total > 0 ? (
 						<PaginationComp
 							handleChangeLimit={handleChangeLimit}
 							handleChangePage={handleChangePage}

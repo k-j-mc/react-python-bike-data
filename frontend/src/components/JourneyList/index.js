@@ -69,7 +69,7 @@ const JourneyList = ({ activeData }) => {
 
 	return (
 		<Fragment>
-			{!loading ? (
+			{!loading && journeys ? (
 				<div className="gridCenterItems">
 					<List>
 						<TransitionGroup>
@@ -86,7 +86,7 @@ const JourneyList = ({ activeData }) => {
 						</TransitionGroup>
 					</List>
 
-					{pages && journeys.total > 5 ? (
+					{journeys.total > 0 ? (
 						<PaginationComp
 							handleChangeLimit={handleChangeLimit}
 							handleChangePage={handleChangePage}
