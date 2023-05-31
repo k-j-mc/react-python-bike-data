@@ -31,7 +31,22 @@ const App = () => {
 
 	useEffect(() => {
 		dataContext.getDefaultJourneyData();
+
 		dataContext.getDefaultStationData();
+
+		if (dataContext.journeyData === undefined) {
+			setTimeout(() => {
+				dataContext.getDefaultJourneyData();
+			}, [5000]);
+		}
+		if (dataContext.stationData === undefined) {
+			setTimeout(() => {
+				dataContext.getDefaultStationData();
+			}, [5000]);
+		}
+	}, []);
+
+	useEffect(() => {
 		dataContext.getJourneys({
 			limit: 10,
 			skip: 0,

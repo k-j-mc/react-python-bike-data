@@ -44,13 +44,12 @@ const DataState = (props) => {
 	const getDefaultJourneyData = async () => {
 		setInitialLoading();
 
-		const response = await axios.get(`${API_URL}/fetch-journeys`);
+		const response = await axios
+			.get(`${API_URL}/fetch-journeys`)
+			.then((response) => response.data);
 
 		if (response.data) {
 			initialLoading = false;
-		} else {
-			initialLoading = false;
-			error = "Journey data failed to load...";
 		}
 
 		dispatch({
@@ -68,9 +67,6 @@ const DataState = (props) => {
 
 		if (response.data) {
 			initialLoading = false;
-		} else {
-			initialLoading = false;
-			error = "Station data failed to load...";
 		}
 
 		dispatch({
